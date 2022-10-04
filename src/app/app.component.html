@@ -1,0 +1,49 @@
+<button pButton (click)="mostrarDialogo()">Agregar Producto</button>
+<p-dialog header="{{textoBoton}}" [(visible)]="modalVisible" [style]="{width: '50vw'}">
+    <form [formGroup]="nuevoProducto">
+        <span class="p-float-label">
+            <input class="p-inputtext-lg" id="float-input" type="text" pInputText formControlName="nombre">
+            <label for="float-input">Producto</label>
+        </span>
+        <span class="p-float-label">
+            <input class="p-inputtext-lg" id="float-input" type="number" pInputText formControlName="precio">
+            <label for="float-input">Precio</label>
+        </span>
+        <span class="p-float-label">
+            <input class="p-inputtext-lg" id="float-input" type="text" pInputText formControlName="descripcion">
+            <label for="float-input">Descripcion</label>
+        </span>
+        <span class="p-float-label">
+            <input class="p-inputtext-lg" id="float-input" type="text" pInputText formControlName="imagen">
+            <label for="float-input">Imagen</label>
+        </span>
+        <div class="input-group mb-3">
+            <input type="file" accept=".png" (change)="cargarImagen($event)">
+        </div>
+        <p-button label="{{textoBoton}}" (click)="cargarProducto()" (click)="modalVisible=false"></p-button>
+    </form>
+
+</p-dialog>
+<p-dialog header="Eliminar" [(visible)]="eliminarVisible" [modal]="true" [style]="{width: '50vw'}" [draggable]="false"
+    [resizable]="false">
+    <p class="m-0">
+        ¿Estas seguro de eliminar este producto?
+    </p>
+    <ng-template pTemplate="footer">
+        <p-button icon="pi pi-trash" (click)="eliminarVisible=false" (click)="eliminarProducto()" label="Eliminar" styleClass="p-button-text"></p-button>
+        <p-button icon="pi pi-check" (click)="eliminarVisible=false" label="Cancelar" styleClass="p-button-text"></p-button>
+    </ng-template>
+</p-dialog>
+    <div class="grid grid-nogutter">
+        <div class="col-4" *ngFor="let producto of productos">
+            <p-card class=" m-2" header="{{producto.nombre}}" subheader="$ {{producto.precio}}"
+                [style]="{width: '360px'}" styleClass="p-card-shadow">
+                <ng-template pTemplate="header">
+                    <img alt="Card" src="{{producto.imagen}}">
+                </ng-template>
+                <p>{{producto.descripcion}}</p>
+                <p-button (click)="mostrarEditar(producto)">editar</p-button>
+                <p-button (click)="mostrarEliminar(producto)">borrar</p-button>
+            </p-card>
+        </div>
+    </div>
